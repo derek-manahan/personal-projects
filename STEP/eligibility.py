@@ -14,11 +14,11 @@ inputs_valid = False
 NF = 0
 
 # Checking student enrollment status
-undergrad_status = st.radio("Are you a UC Berkeley enrolled undergraduate student?", ["Yes", "No"], index=None)
+undergrad_status = st.radio("**Are you a UC Berkeley enrolled undergraduate student?**", ["Yes", "No"], index=None)
 if undergrad_status == "Yes":
     student_type = "Undergraduate"
 elif undergrad_status == "No":
-    grad_status = st.radio("Are you a UC Berkeley enrolled graduate student?", ["Yes", "No"], index=None)
+    grad_status = st.radio("**Are you a UC Berkeley enrolled graduate student?**", ["Yes", "No"], index=None)
     if grad_status == "Yes":
         student_type = "Graduate"
     elif grad_status == "No":
@@ -26,12 +26,12 @@ elif undergrad_status == "No":
         st.stop()
 
 # Checking student instruction status
-instructor_status = st.radio("Are you currently a graduate/undergraduate student instructor (GSI/UGSI)?", ["Yes", "No"], index=None)
+instructor_status = st.radio("**Are you currently a graduate/undergraduate student instructor (GSI/UGSI)?**", ["Yes", "No"], index=None)
 if instructor_status == "Yes":
     NF += 1.5
 
 # Checking student financial support
-aid_check = st.radio("Did you submit a FAFSA application for the current academic year (or semester you are applying for)?", ["Yes", "No"], index=None)
+aid_check = st.radio("**Did you submit a FAFSA application for the current academic year (or semester you are applying for)?**", ["Yes", "No"], index=None)
 if aid_check == "Yes":
     SAI = st.number_input("Enter your FAFSA Student Aid Index (SAI): | **CalCentral > My Finances > Financial Aid & Scholarships Profile**", step=1, format="%d", placeholder="Enter your SAI")
     if SAI <= 0.0:
@@ -45,7 +45,7 @@ if aid_check == "Yes":
 
 # Checking if student submitted CADAA instead of FAFSA
 elif aid_check == "No":
-    cadaa_check = st.radio("Did you submit a CA Dream Act (CADAA) application for the current academic year (or semester you are applying for)?", ["Yes", "No"], index=None)
+    cadaa_check = st.radio("**Did you submit a CA Dream Act (CADAA) application for the current academic year (or semester you are applying for)?**", ["Yes", "No"], index=None)
     if cadaa_check == "Yes":
             NF += 3
 
