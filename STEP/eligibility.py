@@ -13,6 +13,9 @@ inputs_valid = False
 # Calculated "Need Factor," which is used to assess student eligibility
 NF = 0
 
+# Student is within an SAI boundary
+in_boundary = False
+
 # Checking student enrollment status
 undergrad_status = st.radio("**Are you a UC Berkeley enrolled undergraduate student?**", ["Yes", "No"], index=None)
 if undergrad_status == "Yes":
@@ -37,8 +40,12 @@ if aid_check == "Yes":
     if SAI <= 0.0:
         NF += 3
     elif 1.0 <= SAI <= 750:
+        if SAI < 500.0:
+            in_boundary = True
         NF += 2
     elif 751 <= SAI <= 6655:
+        if 500 < SAI < 1000:
+            in_boundary = True
         NF += 1
     else:
         NF += 0
@@ -63,6 +70,10 @@ if inputs_valid:
     if st.button("Check Eligibility"):
         st.markdown("---")
 
+# Notify student if they fall within a boundary
+        if in_boundary:
+            st.warning("⚠️ Your financial need falls close to an eligibility boundary. Your eligibility will be manually assessed based on additional verification questions in your application.")
+
 # Highest need factor means student is eligible for all tech
         if NF >= 3.0:
             st.success("✅ You are likely **eligible for ALL technology** offered by STEP.")
@@ -77,7 +88,8 @@ if inputs_valid:
                 st.warning(
                     "⚠️ For graduate students who do not receive financial aid, your eligibility for **laptops and hotspots** will be manually reviewed based on additional verification questions.")
             else:
-                st.warning("⚠️ You are likely **ineligible** for laptops and hotspots.")
+                if not in_boundary:
+                    st.warning("⚠️ You are likely **ineligible** for laptops and hotspots.")
             st.write("**You are likely eligible for the following technology offered by STEP:**")
             permitted = [
                 "Microphone", "Wacom Drawing Tablet", "USB Headphones", "iClicker", "Bluetooth Keyboard",
